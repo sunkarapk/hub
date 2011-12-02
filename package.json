@@ -1,0 +1,30 @@
+{
+  "name": "hub",
+  "description": "make working with github easier",
+  "version": "0.1.0",
+  "homepage": "http://pkumar.github.com/hub",
+  "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (http://pkumar.github.com)",
+  "contributors": [
+    { "name": "Pavan Kumar Sunkara", "email": "pavan.sss1991@gmail.com" }
+  ],
+  "dependencies": {
+    "octonode": "*",
+    "nconf": "*",
+    "optimist": "*",
+    "colors": "*"
+  },
+  "devDependencies": {},
+  "keywords": ["hub", "git", "github", "cli", "tool"],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pkumar/hub.git"
+  },
+  "bin": "./bin/hub",
+  "main": "./lib/hub",
+  "scripts": {
+    "test": ""
+  },
+  "engines": {
+    "node": ">=0.6.0"
+  }
+}

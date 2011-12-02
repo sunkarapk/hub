@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+var hub = require('../lib/hub')
+    , argv = require('optimist').argv
+    , colors = require('colors');
