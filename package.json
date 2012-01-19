@@ -1,11 +1,29 @@
 {
   "name": "hub",
-  "description": "make working with github easier",
   "version": "0.1.0",
-  "homepage": "http://pkumar.github.com/hub",
   "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (http://pkumar.github.com)",
+  "description": "make working with github easier",
+  "main": "./lib/hub",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pksunkara/hub.git"
+  },
+  "keywords": [
+    "hub",
+    "git",
+    "github",
+    "cli",
+    "tool"
+  ],
+  "homepage": "http://pksunkara.github.com/nosqlite",
+  "scripts": {
+    "test": ""
+  },
   "contributors": [
-    { "name": "Pavan Kumar Sunkara", "email": "pavan.sss1991@gmail.com" }
+    {
+      "name": "Pavan Kumar Sunkara",
+      "email": "pavan.sss1991@gmail.com"
+    }
   ],
   "dependencies": {
     "octonode": "*",
@@ -14,17 +32,17 @@
     "colors": "*"
   },
   "devDependencies": {},
-  "keywords": ["hub", "git", "github", "cli", "tool"],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pkumar/hub.git"
-  },
-  "bin": "./bin/hub",
-  "main": "./lib/hub",
-  "scripts": {
-    "test": ""
-  },
   "engines": {
     "node": ">=0.6.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/pksunkara/hub/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/pksunkara/hub/raw/master/LICENSE"
+    }
+  ],
+  "bin": "./bin/hub"
 }
