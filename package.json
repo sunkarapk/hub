@@ -17,7 +17,7 @@
   ],
   "homepage": "http://pksunkara.github.com/nosqlite",
   "scripts": {
-    "test": ""
+    "test": "vows --spec"
   },
   "contributors": [
     {
@@ -26,12 +26,13 @@
     }
   ],
   "dependencies": {
-    "octonode": "*",
-    "nconf": "*",
-    "optimist": "*",
-    "colors": "*"
+    "octonode": "0.1.1",
+    "flatiron": "0.1.11"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cli-easy": "0.1.0",
+    "vows": "0.6.1"
+  },
   "engines": {
     "node": ">=0.6.0"
   },
