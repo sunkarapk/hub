@@ -27,7 +27,8 @@
   ],
   "dependencies": {
     "octonode": "0.1.1",
-    "flatiron": "0.1.11"
+    "flatiron": "0.1.13",
+    "flatiron-cli-config": "0.1.1"
   },
   "devDependencies": {
     "cli-easy": "0.1.0",
