@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (http://pkumar.github.com)",
   "description": "make working with github easier",
-  "main": "./lib/hub",
+  "main": "./lib/index",
   "repository": {
     "type": "git",
     "url": "git://github.com/pksunkara/hub.git"
@@ -26,13 +26,13 @@
     }
   ],
   "dependencies": {
-    "octonode": "0.1.1",
-    "flatiron": "0.1.13",
-    "flatiron-cli-config": "0.1.1"
+    "octonode": "0.1.x",
+    "flatiron": "0.1.x",
+    "flatiron-cli-version": "0.1.x",
+    "flatiron-cli-config": "0.1.x"
   },
   "devDependencies": {
-    "cli-easy": "0.1.0",
-    "vows": "0.6.1"
+    "vows": "0.6.2"
   },
   "engines": {
     "node": ">=0.6.0"
