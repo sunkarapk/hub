@@ -28,6 +28,7 @@
   "dependencies": {
     "octonode": "0.1.x",
     "flatiron": "0.1.x",
+    "flatiron-cli-ok": "0.1.x",
     "flatiron-cli-version": "0.1.x",
     "flatiron-cli-config": "0.1.x"
   },

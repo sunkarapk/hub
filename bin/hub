@@ -27,5 +27,6 @@ app.use(flatiron.plugins.cli, {
 });
 
 app.use(require('flatiron-cli-config'), { store: 'file' });
+app.use(require('flatiron-cli-ok'));
 
 app.start();
