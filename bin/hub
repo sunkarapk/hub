@@ -19,7 +19,7 @@ var usage = [
 
 app.config.file({ file: '.hubconfig', dir: process.env.HOME, search: true });
 
-app.use(require('flatiron-cli-version'));
+app.use(require('flatiron-cli-version'), { route: true });
 
 app.use(flatiron.plugins.cli, {
   source: path.join(__dirname, '..', 'lib', 'commands'),
