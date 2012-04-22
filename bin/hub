@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-var flatiron = require('flatiron'),
-    path = require('path'),
-    app = flatiron.app;
+var flatiron = require('flatiron')
+  , github = require('octonode')
+  , path = require('path')
+  , app = flatiron.app;
 
 var usage = [
   '',
@@ -23,10 +24,14 @@ app.use(require('flatiron-cli-version'), { route: true });
 
 app.use(flatiron.plugins.cli, {
   source: path.join(__dirname, '..', 'lib', 'commands'),
+  argv: require('../lib/argv'),
+  prompt: require('../lib/prompt'),
   usage: usage.join('\n')
 });
 
 app.use(require('flatiron-cli-config'), { store: 'file' });
-app.use(require('flatiron-cli-ok'));
+app.use(require('flatiron-cli-ok'), { show: true });
+
+app.gh = github;
 
 app.start();
