@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var flatiron = require('flatiron')
-  , github = require('octonode')
   , path = require('path')
   , app = flatiron.app;
 
@@ -32,6 +31,6 @@ app.use(flatiron.plugins.cli, {
 app.use(require('flatiron-cli-config'), { store: 'file' });
 app.use(require('flatiron-cli-ok'), { show: true });
 
-app.gh = github;
+app.use(require('../lib/git'));
 
 app.start();
