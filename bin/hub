@@ -18,7 +18,8 @@ var usage = [
 ];
 
 var gitCmds = [
-  'clone'
+  'clone',
+  'remote'
 ];
 
 app.config.file({ file: '.hubconfig', dir: process.env.HOME, search: true });
