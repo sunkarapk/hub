@@ -18,6 +18,7 @@ var usage = [
 ];
 
 app.gitCmds = [
+  'cherry-pick',
   'clone',
   'fetch',
   'remote'
