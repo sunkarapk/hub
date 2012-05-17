@@ -17,7 +17,7 @@ var usage = [
   'https://github.com/pksunkara/hub',
 ];
 
-var gitCmds = [
+app.gitCmds = [
   'clone',
   'remote'
 ];
