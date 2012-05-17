@@ -26,6 +26,7 @@
     }
   ],
   "dependencies": {
+    "async": "0.1.x",
     "octonode": "0.1.x",
     "flatiron": "0.1.x",
     "flatiron-cli-ok": "0.1.x",
