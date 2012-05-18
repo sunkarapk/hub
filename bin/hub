@@ -17,12 +17,7 @@ var usage = [
   'https://github.com/pksunkara/hub',
 ];
 
-app.gitCmds = [
-  'cherry-pick',
-  'clone',
-  'fetch',
-  'remote'
-];
+app.cmds = require('../lib/cmds');
 
 app.config.file({ file: '.hubconfig', dir: process.env.HOME, search: true });
 
@@ -38,7 +33,7 @@ app.use(flatiron.plugins.cli, {
 app.use(require('flatiron-cli-config'), { store: 'file' });
 app.use(require('../lib/git'));
 
-if (app.config.get('welcome') || app.gitCmds.indexOf(app.argv._[0]) == -1 || app.argv._.length < 2) {
+if (app.config.get('welcome') || app.cmds.indexOf(app.argv._[0]) == -1 || app.argv._.length < 2) {
   app.use(require('flatiron-cli-ok'), { show: true });
   app.start();
 } else {
