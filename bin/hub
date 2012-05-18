@@ -17,29 +17,35 @@ var usage = [
   'https://github.com/pksunkara/hub',
 ];
 
+app.name = 'hub';
+app.version = 'v0.1.0';
+
 app.cmds = require('../lib/cmds');
 
 app.config.file({ file: '.hubconfig', dir: process.env.HOME, search: true });
-
-app.use(require('flatiron-cli-version'), { route: true });
 
 app.use(flatiron.plugins.cli, {
   source: path.join(__dirname, '..', 'lib', 'commands'),
   argv: require('../lib/argv'),
   prompt: require('../lib/prompt'),
-  usage: usage.join('\n')
+  notFoundUsage: false
 });
 
 app.use(require('flatiron-cli-config'), { store: 'file' });
 app.use(require('../lib/git'));
 
-if (app.config.get('welcome') || app.cmds.indexOf(app.argv._[0]) == -1 || app.argv._.length < 2) {
-  app.use(require('flatiron-cli-ok'), { show: true });
-  app.start();
-} else {
-  app.start(function (err) {
-    if (err && err.message) {
-      app.log.error(err.message.red.bold);
+app.start(function (err) {
+  if (err && err.message) {
+    app.log.error(err.message);
+  } else if (err) {
+    var args = process.argv.slice(2);
+
+    if (args.length == 0) {
+      usage.forEach(function (u) {
+        app.log.help(u);
+      });
+    } else if (app.cmds.hub.indexOf(app.argv._[0]) == -1) {
+      console.log(args.join(' '));
     }
-  });
-}
+  }
+});
