@@ -22,7 +22,7 @@ app.version = 'v0.1.0';
 
 app.cmds = require('../lib/cmds');
 
-app.config.file({ file: '.hubconfig', dir: process.env.HOME, search: true });
+app.config.file({ file: path.join(process.env.HOME, '.hubconfig'), search: true });
 
 app.use(flatiron.plugins.cli, {
   source: path.join(__dirname, '..', 'lib', 'commands'),
