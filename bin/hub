@@ -37,7 +37,7 @@ app.use(require('../lib/git'));
 app.start(function (err) {
   if (err && err.message) {
     app.log.error(err.message.red.bold);
-  } else if (err) {
+  } else {
     var args = process.argv.slice(2);
 
     if (args.length == 0) {
