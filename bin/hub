@@ -37,7 +37,7 @@ app.use(require('../lib/git'));
 app.start(function (err) {
   if (err && err.message) {
     app.log.error(err.message.red.bold);
-  } else {
+  } else if (err) {
     var args = process.argv.slice(2);
 
     if (args.length == 0) {
@@ -46,6 +46,12 @@ app.start(function (err) {
       });
     } else if (app.cmds.hub.indexOf(app.argv._[0]) == -1) {
       console.log(args.join(' '));
+    }
+  } else {
+    if (process.argv.length == 2) {
+      usage.forEach(function (u) {
+        app.log.help(u);
+      });
     }
   }
 });
