@@ -22,11 +22,19 @@ func (h *Help) Description() string {
 	return "Show help messages of commands"
 }
 
+func (h *Help) Usage() string {
+	return "hub [<options>] <command> [<args>]"
+}
+
 func (h *Help) mainHelp() {
-	help := "USAGE:\n  hub [<options>] <command> [<args>]\n\n"
+	help := "USAGE:\n hub [<options>] <command> [<args>]\n\n"
 	help += "  Command line tool to interact with github\n\nCOMMANDS:\n"
 
-	for _, val := range h.commands {
+	for key, val := range h.commands {
+		if len(key) == 1 {
+			continue
+		}
+
 		help += "  " + val.Short() + ", " + val.Title()
 		//TODO: smart padding
 		help += "\t" + val.Description() + "\n"
@@ -50,10 +58,15 @@ func (h *Help) optionsHelp(help *string) {
 
 func (h *Help) Run(args []string) {
 
-	if len(args) == 0 {
+	if len(args) == 0 || args[0] == "help" {
 		h.mainHelp()
 	} else {
-		fmt.Println(args)
+		if _, err := h.commands[args[0]]; !err {
+			fmt.Println("Command does not exist: '" + args[0] + "'\n")
+			h.mainHelp()
+		} else {
+			fmt.Println("Work in Progress!")
+		}
 	}
 }
 

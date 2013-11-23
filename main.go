@@ -3,6 +3,7 @@ package main
 import (
 	"./hub"
 	"fmt"
+	//"github.com/google/go-github/github"
 	"github.com/jessevdk/go-flags"
 	"os"
 	"reflect"
@@ -38,10 +39,10 @@ func main() {
 	}
 
 	// Fill all the commands
-	commands["auth"] = hub.AuthCommand()
+	add(commands, hub.AuthCommand())
 
 	// Fill the help command finally
-	commands["help"] = hub.HelpCommand(commands, optsMeta)
+	add(commands, hub.HelpCommand(commands, optsMeta))
 
 	// Check if command exists
 	if _, err := commands[args[0]]; !err {
@@ -51,4 +52,9 @@ func main() {
 
 	// Run the command with given args
 	commands[args[0]].Run(args[1:])
+}
+
+func add(m map[string]hub.Command, c hub.Command) {
+	m[c.Title()] = c
+	m[c.Short()] = c
 }

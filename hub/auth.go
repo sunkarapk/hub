@@ -1,11 +1,7 @@
 package hub
 
-import (
-	"fmt"
-)
-
 type Auth struct {
-	children map[string]Command
+	Common
 }
 
 func (a *Auth) Short() string {
@@ -17,17 +13,24 @@ func (a *Auth) Title() string {
 }
 
 func (a *Auth) Description() string {
-	return "Manage github access tokens"
+	return "Manage github access modes"
+}
+
+func (a *Auth) Usage() string {
+	return "<command> [<args>]"
 }
 
 func (a *Auth) Run(args []string) {
-	fmt.Println(args)
 }
 
 func AuthCommand() Command {
 	cmd := new(Auth)
 
-	cmd.children = make(map[string]Command)
+	cmd.Init()
+
+	cmd.Add(AuthDestroyCommand())
+	cmd.Add(AuthPrivateCommand())
+	cmd.Add(AuthUserCommand())
 
 	return cmd
 }
