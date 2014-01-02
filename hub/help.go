@@ -18,12 +18,12 @@ func (h *Help) Title() string {
 	return "help"
 }
 
-func (h *Help) Description() string {
-	return "Show help messages of commands"
-}
-
 func (h *Help) Usage() string {
 	return "hub [<options>] <command> [<args>]"
+}
+
+func (h *Help) Description() string {
+	return "Show help messages of commands"
 }
 
 func (h *Help) mainHelp() {

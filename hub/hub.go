@@ -3,10 +3,9 @@ package hub
 type Command interface {
 	Short() string
 	Title() string
+	Usage() string
 
 	Description() string
-
-	Usage() string
 
 	Run(args []string)
 }
@@ -25,5 +24,4 @@ func (c *Common) Add(d Command) {
 }
 
 func ShowHelp(c Command) {
-	usage := "hub"
 }
