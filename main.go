@@ -1,60 +1,42 @@
 package main
 
 import (
-	"./hub"
 	"fmt"
-	//"github.com/google/go-github/github"
 	"github.com/jessevdk/go-flags"
 	"os"
-	"reflect"
 )
 
-func main() {
+const (
+	HubVersion = "0.1.0"
+)
 
-	// Declaration of variables
-	commands := make(map[string]hub.Command)
+// Options for flags package
+var opts struct {
+	Private bool `short:"p" long:"private" description:"Use private url for the repository"`
 
-	// Options for flags package
-	var opts struct {
-		Help    bool   `short:"h" long:"help" description:"Show this help message"`
-		Private bool   `short:"p" long:"private" description:"Use private url for the repository"`
-		Verbose []bool `short:"v" long:"verbose" description:"Show verbose debug information"`
-		Version bool   `short:"V" long:"version" description:"Show version information"`
-	}
+	Verbose []bool `short:"V" long:"verbose" description:"Show verbose debug information"`
 
-	// Options struct metadata
-	optsMeta := reflect.ValueOf(&opts).Type().Elem()
-
-	// Parse the arguments
-	args, err := flags.Parse(&opts)
-
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(0)
-	}
-
-	// Set help as default command
-	if len(args) == 0 {
-		args = []string{"help"}
-	}
-
-	// Fill all the commands
-	add(commands, hub.AuthCommand())
-
-	// Fill the help command finally
-	add(commands, hub.HelpCommand(commands, optsMeta))
-
-	// Check if command exists
-	if _, err := commands[args[0]]; !err {
-		fmt.Println("Command does not exist: '" + args[0] + "'\n")
-		args = []string{"help"}
-	}
-
-	// Run the command with given args
-	commands[args[0]].Run(args[1:])
+	Auth    AuthCommand    `command:"auth" description:"Manage github access modes"`
+	Version VersionCommand `command:"version" description:"Display program version"`
 }
 
-func add(m map[string]hub.Command, c hub.Command) {
-	m[c.Title()] = c
-	m[c.Short()] = c
+// Build the parser
+var parser = flags.NewParser(&opts, flags.Default)
+
+// Main program
+func main() {
+	// Set usage string
+	parser.Usage = "[options]"
+
+	// Parse the arguments
+	_, err := parser.Parse()
+
+	if err != nil {
+		if _, ok := err.(*flags.Error); !ok || err.(*flags.Error).Type != flags.ErrHelp {
+			fmt.Println()
+			parser.WriteHelp(os.Stdout)
+		}
+
+		os.Exit(0)
+	}
 }
