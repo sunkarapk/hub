@@ -20,10 +20,8 @@ var opts struct {
 	Version VersionCommand `command:"version" description:"Display program version"`
 }
 
-// Build the parser
 var parser = flags.NewParser(&opts, flags.Default)
 
-// Main program
 func main() {
 	// Set usage string
 	parser.Usage = "[options]"
@@ -36,7 +34,5 @@ func main() {
 			fmt.Println()
 			parser.WriteHelp(os.Stdout)
 		}
-
-		os.Exit(0)
 	}
 }
