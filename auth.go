@@ -6,7 +6,9 @@ type AuthCommand struct {
 	AuthDestroy AuthDestroyCommand `command:"destroy" description:"Destroy authorization and delete username"`
 }
 
-var Auth AuthCommand
+func (a *AuthCommand) Execute(args []string) error {
+	return nil
+}
 
 func (a *AuthCommand) Usage() string {
 	return ""

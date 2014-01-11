@@ -7,8 +7,6 @@ package main
 
 type AuthPrivateCommand struct{}
 
-var AuthPrivate AuthPrivateCommand
-
 func (a *AuthPrivateCommand) Execute(args []string) error {
 	return nil
 }
