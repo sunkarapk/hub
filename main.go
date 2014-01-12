@@ -12,27 +12,27 @@ const (
 )
 
 // Options for flags package
-var opts struct {
-	Private bool `short:"p" long:"private" description:"Use private url for the repository"`
+var Options struct {
 	Verbose bool `short:"v" long:"verbose" description:"Show verbose debug information"`
 
 	Auth    AuthCommand    `command:"auth" description:"Manage github access modes"`
+	Clone   CloneCommand   `command:"clone" description:"Helps cloning github repos"`
 	Version VersionCommand `command:"version" description:"Display program version"`
 }
 
-var parser = flags.NewParser(&opts, flags.HelpFlag|flags.PassDoubleDash)
+var parser = flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash)
 
 func main() {
 	// Set usage string
-	parser.Usage = "[options]"
+	parser.Usage = "[-v]"
 
 	// Parse the arguments
 	args, err := parser.Parse()
 
 	if err != nil {
 		if _, ok := err.(*flags.Error); !ok {
-			fmt.Println(err)
-			fmt.Println()
+			fmt.Fprintln(os.Stderr, "Error:", err)
+			fmt.Fprintln(os.Stderr)
 		} else {
 			typ := err.(*flags.Error).Type
 
