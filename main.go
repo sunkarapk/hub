@@ -2,8 +2,8 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"github.com/jessevdk/go-flags"
+	"github.com/wsxiaoys/terminal"
 	"os"
 )
 
@@ -16,7 +16,10 @@ var Options struct {
 	Verbose bool `short:"v" long:"verbose" description:"Show verbose debug information"`
 
 	Auth    AuthCommand    `command:"auth" description:"Manage github access modes"`
-	Clone   CloneCommand   `command:"clone" description:"Helps cloning github repos"`
+	Clone   CloneCommand   `command:"clone" description:"Clone github repos easily"`
+	Fetch   FetchCommand   `command:"fetch" description:"Fetch user's repo updates"`
+	Fork    ForkCommand    `command:"fork" description:"Fork a github repo"`
+	Remote  RemoteCommand  `command:"remote" description:"Manage remotes of repos"`
 	Version VersionCommand `command:"version" description:"Display program version"`
 }
 
@@ -30,19 +33,20 @@ func main() {
 	args, err := parser.Parse()
 
 	if err != nil {
-		if _, ok := err.(*flags.Error); !ok {
-			fmt.Fprintln(os.Stderr, "Error:", err)
-			fmt.Fprintln(os.Stderr)
-		} else {
+		if _, ok := err.(*flags.Error); ok {
 			typ := err.(*flags.Error).Type
 
 			if typ == flags.ErrUnknownCommand {
 				err = errors.New("unknown command '" + args[0] + "'")
 			}
 
-			if typ != flags.ErrCommandRequired && typ != flags.ErrHelp {
-				fmt.Fprintln(os.Stderr, err)
+			if typ == flags.ErrCommandRequired || typ == flags.ErrHelp {
+				err = nil
 			}
+		}
+
+		if err != nil {
+			terminal.Stderr.Color("r!").Print("Error: ", err).Reset().Nl().Nl()
 		}
 
 		parser.WriteHelp(os.Stderr)
