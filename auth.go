@@ -9,7 +9,3 @@ type AuthCommand struct {
 func (a *AuthCommand) Execute(args []string) error {
 	return nil
 }
-
-func (a *AuthCommand) Usage() string {
-	return ""
-}

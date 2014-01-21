@@ -7,7 +7,3 @@ type RemoteCommand struct {
 func (r *RemoteCommand) Execute(args []string) error {
 	return nil
 }
-
-func (r *RemoteCommand) Usage() string {
-	return ""
-}

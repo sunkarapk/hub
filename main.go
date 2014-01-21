@@ -3,12 +3,21 @@ package main
 import (
 	"errors"
 	"github.com/jessevdk/go-flags"
+	"github.com/robfig/config"
 	"github.com/wsxiaoys/terminal"
 	"os"
+	"os/exec"
+	"os/user"
+	"path/filepath"
+	"strings"
 )
 
 const (
 	HubVersion = "0.1.0"
+)
+
+var (
+	Config func(string) string
 )
 
 // Options for flags package
@@ -23,16 +32,52 @@ var Options struct {
 	Version VersionCommand `command:"version" description:"Display program version"`
 }
 
-var parser = flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash)
-
 func main() {
+	// Initiate parser
+	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash)
+
 	// Set usage string
 	parser.Usage = "[-v]"
+
+	// Load config for application
+	usr, _ := user.Current()
+	hubrc := filepath.Join(usr.HomeDir, ".hubrc")
+	conf, err := config.ReadDefault(hubrc)
+
+	if err != nil {
+		conf = config.NewDefault()
+
+		conf.AddSection("default")
+		conf.AddOption("default", "site", "github.com")
+		conf.AddOption("default", "combine", "0")
+
+		conf.WriteFile(hubrc, 0600, "Config for http://github.com/pksunkara/hub")
+	}
+
+	Config = func(option string) string {
+		value, _ := conf.String("default", option)
+		return value
+	}
 
 	// Parse the arguments
 	args, err := parser.Parse()
 
 	if err != nil {
+		if Config("combine") == "1" {
+			err := Git(os.Args[1:]...)
+
+			if err != nil {
+				os.Exit(1)
+			} else {
+				os.Exit(0)
+			}
+		}
+
+		if _, ok := err.(*exec.ExitError); ok {
+			HandleError(errors.New("Running git command is unsuccessful"))
+			os.Exit(1)
+		}
+
 		if _, ok := err.(*flags.Error); ok {
 			typ := err.(*flags.Error).Type
 
@@ -45,10 +90,40 @@ func main() {
 			}
 		}
 
-		if err != nil {
-			terminal.Stderr.Color("r!").Print("Error: ", err).Reset().Nl().Nl()
-		}
+		HandleError(err)
 
+		terminal.Stderr.Color("w")
 		parser.WriteHelp(os.Stderr)
+		terminal.Stderr.Reset()
 	}
+}
+
+func HandleError(err error) {
+	if err != nil {
+		terminal.Stderr.Color("r!").Print("Error: ", err).Reset().Nl().Nl()
+	}
+}
+
+func HandleDebug(str string) {
+	if Options.Verbose {
+		terminal.Stderr.Color("w!").Print("Debug: ", str).Reset().Nl()
+	}
+}
+
+func Git(args ...string) error {
+	if _, err := exec.LookPath("git"); err != nil {
+		HandleError(errors.New("Please install git on your system"))
+		os.Exit(1)
+	}
+
+	cmd := exec.Command("git", args...)
+
+	cmd.Stdin = os.Stdin
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	HandleDebug("git " + strings.Join(args, " "))
+
+	return cmd.Run()
 }

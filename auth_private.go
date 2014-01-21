@@ -10,7 +10,3 @@ type AuthPrivateCommand struct{}
 func (a *AuthPrivateCommand) Execute(args []string) error {
 	return nil
 }
-
-func (a *AuthPrivateCommand) Usage() string {
-	return ""
-}

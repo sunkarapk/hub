@@ -1,7 +1,7 @@
 package main
 
 import (
-	"errors"
+	"strings"
 )
 
 type CloneCommand struct {
@@ -10,12 +10,34 @@ type CloneCommand struct {
 
 func (c *CloneCommand) Execute(args []string) error {
 	if len(args) == 0 {
-		return errors.New("Please specify a repo!")
+		return &ErrArgument{}
 	}
 
-	return nil
+	var repo string
+
+	if c.Private {
+		repo = "git@" + Config("site") + ":"
+	} else {
+		repo = "git://" + Config("site") + "/"
+	}
+
+	path := strings.Split(args[0], "/")
+
+	if len(path) == 1 {
+		if Config("user") == "" {
+			return &ErrUserMode{}
+		}
+
+		repo = repo + Config("user") + "/" + path[0]
+	} else if len(path) == 2 {
+		repo = repo + args[0]
+	} else {
+		return &ErrProxy{}
+	}
+
+	return Git(append([]string{"clone", "--progress"}, repo)...)
 }
 
 func (c *CloneCommand) Usage() string {
-	return "[-p] <repo>"
+	return "[-p] [<user>/]<repo>"
 }
