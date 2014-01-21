@@ -15,7 +15,7 @@ func (c *CloneCommand) Execute(args []string) error {
 
 	var repo string
 
-	if c.Private {
+	if c.Private || Config("token") != "" {
 		repo = "git@" + Config("site") + ":"
 	} else {
 		repo = "git://" + Config("site") + "/"

@@ -17,7 +17,7 @@ const (
 )
 
 var (
-	Config func(string) string
+	Config func(...string) string
 )
 
 // Options for flags package
@@ -33,16 +33,21 @@ var Options struct {
 }
 
 func main() {
+	var err error
+
 	// Initiate parser
 	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash)
 
 	// Set usage string
 	parser.Usage = "[-v]"
 
-	// Load config for application
+	var conf *config.Config
+
 	usr, _ := user.Current()
 	hubrc := filepath.Join(usr.HomeDir, ".hubrc")
-	conf, err := config.ReadDefault(hubrc)
+
+	// Load config for application
+	conf, err = config.ReadDefault(hubrc)
 
 	if err != nil {
 		conf = config.NewDefault()
@@ -52,10 +57,24 @@ func main() {
 		conf.AddOption("default", "combine", "0")
 
 		conf.WriteFile(hubrc, 0600, "Config for http://github.com/pksunkara/hub")
+		conf, _ = config.ReadDefault(hubrc)
 	}
 
-	Config = func(option string) string {
-		value, _ := conf.String("default", option)
+	Config = func(option ...string) string {
+		var value string
+
+		if len(option) > 0 {
+			if len(option) > 1 {
+				conf.AddOption("default", option[0], option[1])
+				conf.WriteFile(hubrc, 0600, "Config for http://github.com/pksunkara/hub")
+				conf, _ = config.ReadDefault(hubrc)
+
+				value = option[1]
+			} else {
+				value, _ = conf.String("default", option[0])
+			}
+		}
+
 		return value
 	}
 
@@ -92,21 +111,24 @@ func main() {
 
 		HandleError(err)
 
-		terminal.Stderr.Color("w")
+		terminal.Stderr.Nl()
 		parser.WriteHelp(os.Stderr)
-		terminal.Stderr.Reset()
 	}
 }
 
 func HandleError(err error) {
 	if err != nil {
-		terminal.Stderr.Color("r!").Print("Error: ", err).Reset().Nl().Nl()
+		terminal.Stderr.Color("r").Print("errs").Color("w!").Print(": ", err).Reset().Nl()
 	}
+}
+
+func HandleInfo(str string) {
+	terminal.Stderr.Color("g").Print("info").Color("w!").Print(": ", str).Reset().Nl()
 }
 
 func HandleDebug(str string) {
 	if Options.Verbose {
-		terminal.Stderr.Color("w!").Print("Debug: ", str).Reset().Nl()
+		terminal.Stderr.Color("y").Print("logs").Color("w!").Print(": ", str).Reset().Nl()
 	}
 }
 

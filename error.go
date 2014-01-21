@@ -23,3 +23,9 @@ type ErrArgument struct{}
 func (e *ErrArgument) Error() string {
 	return "You are missing an expected argument"
 }
+
+type ErrModes struct{}
+
+func (e *ErrModes) Error() string {
+	return "Please destroy the current user before changing modes"
+}
