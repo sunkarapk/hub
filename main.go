@@ -63,16 +63,14 @@ func main() {
 	Config = func(option ...string) string {
 		var value string
 
-		if len(option) > 0 {
-			if len(option) > 1 {
-				conf.AddOption("default", option[0], option[1])
-				conf.WriteFile(hubrc, 0600, "Config for http://github.com/pksunkara/hub")
-				conf, _ = config.ReadDefault(hubrc)
+		if len(option) > 1 {
+			conf.AddOption("default", option[0], option[1])
+			conf.WriteFile(hubrc, 0600, "Config for http://github.com/pksunkara/hub")
+			conf, _ = config.ReadDefault(hubrc)
 
-				value = option[1]
-			} else {
-				value, _ = conf.String("default", option[0])
-			}
+			value = option[1]
+		} else if len(option) > 0 {
+			value, _ = conf.String("default", option[0])
 		}
 
 		return value
