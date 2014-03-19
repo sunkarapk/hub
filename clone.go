@@ -13,6 +13,10 @@ func (c *CloneCommand) Execute(args []string) error {
 		return &ErrArgument{}
 	}
 
+	if strings.Index(args[0], ":") != -1 {
+		return &ErrProxy{}
+	}
+
 	var repo string
 
 	if c.Private || Config("token") != "" {
@@ -35,7 +39,7 @@ func (c *CloneCommand) Execute(args []string) error {
 		return &ErrProxy{}
 	}
 
-	return Git(append([]string{"clone", "--progress"}, repo)...)
+	return Git([]string{"clone", "--progress", repo}...)
 }
 
 func (c *CloneCommand) Usage() string {

@@ -5,5 +5,5 @@ type RemoteCommand struct {
 }
 
 func (r *RemoteCommand) Execute(args []string) error {
-	return nil
+	return &ErrProxy{}
 }

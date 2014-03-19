@@ -28,7 +28,7 @@ var Options struct {
 	Clone   CloneCommand   `command:"clone" description:"Clone github repos easily"`
 	Fetch   FetchCommand   `command:"fetch" description:"Fetch user's repo updates"`
 	Fork    ForkCommand    `command:"fork" description:"Fork a github repo"`
-	Remote  RemoteCommand  `command:"remote" description:"Manage remotes of repos"`
+	Remote  RemoteCommand  `command:"remote" description:"Manage remotes of repos" subcommands-optional:"1"`
 	Version VersionCommand `command:"version" description:"Display program version"`
 }
 
@@ -146,4 +146,10 @@ func Git(args ...string) error {
 	HandleDebug("git " + strings.Join(args, " "))
 
 	return cmd.Run()
+}
+
+func Repo() string {
+	path, _ := os.Getwd()
+
+	return filepath.Base(path)
 }
