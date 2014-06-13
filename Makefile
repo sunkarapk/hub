@@ -1,9 +1,11 @@
 VERSION = 0.1.0
 
 DEPS = \
-	github.com/jessevdk/go-flags
+	github.com/jessevdk/go-flags \
+	github.com/robfig/config \
+	github.com/wsxiaoys/terminal
 
-all:
+all: deps
 	go install github.com/pksunkara/hub
 
 deps:
