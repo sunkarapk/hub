@@ -3,6 +3,10 @@
 	"GoVersion": "go1.3",
 	"Deps": [
 		{
+			"ImportPath": "github.com/google/go-github",
+			"Rev": "b99cc2eb2cb43d56ff531638a4fd83726a62b58a"
+		},
+		{
 			"ImportPath": "github.com/jessevdk/go-flags",
 			"Comment": "v1-202-g4f0ca1e",
 			"Rev": "4f0ca1e2d1349e9662b633ea1b8b8d48e8a32533"

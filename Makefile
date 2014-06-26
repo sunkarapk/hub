@@ -1,6 +1,7 @@
 VERSION = 0.1.0
 
 DEPS = \
+	github.com/google/go-github/github \
 	github.com/jessevdk/go-flags \
 	github.com/robfig/config \
 	github.com/wsxiaoys/terminal
