@@ -24,11 +24,11 @@ var (
 var Options struct {
 	Verbose bool `short:"v" long:"verbose" description:"Show verbose debug information"`
 
-	Auth    AuthCommand    `command:"auth" description:"Manage github access modes"`
-	Clone   CloneCommand   `command:"clone" description:"Clone github repos easily"`
+	Auth    AuthCommand    `command:"auth" alias:"a" description:"Manage github access modes"`
+	Clone   CloneCommand   `command:"clone" alias:"c" description:"Clone github repos easily"`
 	Fetch   FetchCommand   `command:"fetch" description:"Fetch user's repo updates"`
 	Fork    ForkCommand    `command:"fork" description:"Fork a github repo"`
-	Remote  RemoteCommand  `command:"remote" description:"Manage remotes of repos" subcommands-optional:"1"`
+	Remote  RemoteCommand  `command:"remote" alias:"r" description:"Manage remotes of repos" subcommands-optional:"1"`
 	Version VersionCommand `command:"version" description:"Display program version"`
 }
 

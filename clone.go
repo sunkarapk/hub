@@ -19,7 +19,7 @@ func (c *CloneCommand) Execute(args []string) error {
 
 	var repo string
 
-	if c.Private || Config("token") != "" {
+	if c.Private {
 		repo = "git@" + Config("site") + ":"
 	} else {
 		repo = "git://" + Config("site") + "/"
@@ -30,6 +30,10 @@ func (c *CloneCommand) Execute(args []string) error {
 	if len(path) == 1 {
 		if Config("user") == "" {
 			return &ErrUserMode{}
+		}
+
+		if Config("token") != "" {
+			repo = "git@" + Config("site") + ":"
 		}
 
 		repo = repo + Config("user") + "/" + path[0]

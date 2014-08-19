@@ -21,7 +21,7 @@ func (e *ErrPrivateMode) Error() string {
 type ErrArgument struct{}
 
 func (e *ErrArgument) Error() string {
-	return "You are missing an expected argument!"
+	return "You are missing an expected argument or giving excessive arguments!"
 }
 
 type ErrModes struct{}

@@ -7,7 +7,7 @@ DEPS = \
 	github.com/wsxiaoys/terminal
 
 all: deps
-	go install github.com/pksunkara/hub
+	go install -a github.com/pksunkara/hub
 
 deps:
 	go get -u $(DEPS)
