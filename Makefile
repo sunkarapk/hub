@@ -6,7 +6,9 @@ DEPS = \
 	github.com/robfig/config \
 	github.com/wsxiaoys/terminal
 
-all: deps
+all: deps install
+
+install:
 	go install -a github.com/pksunkara/hub
 
 deps:
