@@ -32,7 +32,7 @@ func (f *FetchCommand) Execute(args []string) error {
 		}
 	}
 
-	err = Git([]string{"fetch", "--multiple", strings.Join(users, " ")}...)
+	err = Git(append([]string{"fetch", "--multiple"}, users...)...)
 
 	if err != nil {
 		return err
