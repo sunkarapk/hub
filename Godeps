@@ -1,23 +1,4 @@
-{
-	"ImportPath": "github.com/pksunkara/hub",
-	"GoVersion": "go1.3",
-	"Deps": [
-		{
-			"ImportPath": "github.com/google/go-github",
-			"Rev": "b99cc2eb2cb43d56ff531638a4fd83726a62b58a"
-		},
-		{
-			"ImportPath": "github.com/jessevdk/go-flags",
-			"Comment": "v1-202-g4f0ca1e",
-			"Rev": "4f0ca1e2d1349e9662b633ea1b8b8d48e8a32533"
-		},
-		{
-			"ImportPath": "github.com/robfig/config",
-			"Rev": "09efbd4617d1beb41b72f6668403b1e383b6a4cf"
-		},
-		{
-			"ImportPath": "github.com/wsxiaoys/terminal",
-			"Rev": "9dcaf1d63119a8ac00eef82270eaef08b6aa2328"
-		}
-	]
-}
+github.com/google/go-github/github 2431923100d4989611dcc339f1ff8d280bd9c84c
+github.com/jessevdk/go-flags 5e118789801496c93ba210d34ef1f2ce5a9173bd
+github.com/robfig/config 0f78529c8c7e3e9a25f15876532ecbc07c7d99e6
+github.com/wsxiaoys/terminal 9dcaf1d63119a8ac00eef82270eaef08b6aa2328
