@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/pksunkara/hub/utils"
 	"strings"
 )
 
@@ -8,17 +9,17 @@ type FetchCommand struct{}
 
 func (f *FetchCommand) Execute(args []string) error {
 	if len(args) == 0 {
-		return &ErrArgument{}
+		return &utils.ErrArgument{}
 	} else if len(args) > 1 {
-		return &ErrProxy{}
+		return &utils.ErrProxy{}
 	}
 
 	if len(strings.Split(args[0], "/")) != 1 {
-		return &ErrProxy{}
+		return &utils.ErrProxy{}
 	}
 
 	users := strings.Split(args[0], ",")
-	remotes, err := Remotes()
+	remotes, err := utils.Remotes()
 
 	remoteAdd := &RemoteAddCommand{}
 
@@ -32,13 +33,13 @@ func (f *FetchCommand) Execute(args []string) error {
 		}
 	}
 
-	err = Git(append([]string{"fetch", "--multiple"}, users...)...)
+	err = utils.Git(append([]string{"fetch", "--multiple"}, users...)...)
 
 	if err != nil {
 		return err
 	}
 
-	HandleInfo("Fetched from remotes " + args[0])
+	utils.HandleInfo("Fetched from remotes " + args[0])
 
 	return nil
 }

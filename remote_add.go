@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/pksunkara/hub/utils"
 	"strings"
 )
 
@@ -10,9 +11,9 @@ type RemoteAddCommand struct {
 
 func (r *RemoteAddCommand) Execute(args []string) error {
 	if len(args) == 0 {
-		return &ErrArgument{}
+		return &utils.ErrArgument{}
 	} else if len(args) > 1 {
-		return &ErrProxy{}
+		return &utils.ErrProxy{}
 	}
 
 	var user, repo string
@@ -25,7 +26,7 @@ func (r *RemoteAddCommand) Execute(args []string) error {
 
 	if args[0] == "origin" {
 		if Config("user") == "" {
-			return &ErrUserMode{}
+			return &utils.ErrUserMode{}
 		}
 
 		user = Config("user")
@@ -38,10 +39,10 @@ func (r *RemoteAddCommand) Execute(args []string) error {
 	if len(path) == 1 {
 		repo = repo + user + "/" + Repo()
 	} else {
-		return &ErrProxy{}
+		return &utils.ErrProxy{}
 	}
 
-	err := Git([]string{"remote", "add", args[0], repo}...)
+	err := utils.Git([]string{"remote", "add", args[0], repo}...)
 
 	if err != nil {
 		return err

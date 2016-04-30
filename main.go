@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"github.com/jessevdk/go-flags"
+	"github.com/pksunkara/hub/auth"
+	"github.com/pksunkara/hub/utils"
 	"github.com/robfig/config"
 	"github.com/wsxiaoys/terminal"
 	"os"
@@ -24,13 +26,15 @@ var (
 var Options struct {
 	Verbose bool `short:"v" long:"verbose" description:"Show verbose debug information"`
 
-	Auth    AuthCommand    `command:"auth" alias:"a" description:"Manage github access modes"`
-	Clone   CloneCommand   `command:"clone" alias:"c" description:"Clone github repos easily"`
-	Fetch   FetchCommand   `command:"fetch" description:"Fetch multiple users repo updates"`
-	Fork    ForkCommand    `command:"fork" description:"Fork a github repo"`
-	Push    PushCommand    `command:"push" description:"Push to multiple github repos"`
-	Remote  RemoteCommand  `command:"remote" alias:"r" description:"Manage remotes of repos" subcommands-optional:"1"`
-	Version VersionCommand `command:"version" description:"Display program version"`
+	Auth     auth.Command    `command:"auth" alias:"a" description:"Manage github access modes"`
+	Clone    CloneCommand    `command:"clone" alias:"c" description:"Clone github repos easily"`
+	Config   ConfigCommand   `command:"config" description:"Manage hub's configuration"`
+	Fetch    FetchCommand    `command:"fetch" description:"Fetch multiple users repo updates"`
+	Fork     ForkCommand     `command:"fork" description:"Fork a github repo"`
+	Generate GenerateCommand `command:"generate" alias:"g" description:"Generate something in the repo"`
+	Push     PushCommand     `command:"push" description:"Push to multiple github repos"`
+	Remote   RemoteCommand   `command:"remote" alias:"r" description:"Manage remotes of repos" subcommands-optional:"1"`
+	Version  VersionCommand  `command:"version" description:"Display program version"`
 }
 
 func main() {
@@ -82,7 +86,7 @@ func main() {
 
 	if err != nil {
 		if Config("combine") == "1" {
-			err := Git(os.Args[1:]...)
+			err := utils.Git(os.Args[1:]...)
 
 			if err != nil {
 				os.Exit(1)
@@ -92,7 +96,7 @@ func main() {
 		}
 
 		if _, ok := err.(*exec.ExitError); ok {
-			HandleError(errors.New("Running git command is unsuccessful"))
+			utils.HandleError(errors.New("Running git command is unsuccessful"))
 			os.Exit(1)
 		}
 
@@ -108,40 +112,9 @@ func main() {
 			}
 		}
 
-		HandleError(err)
+		utils.HandleError(err)
 
 		terminal.Stderr.Nl()
 		parser.WriteHelp(os.Stderr)
 	}
-}
-
-func HandleError(err error) {
-	if err != nil {
-		terminal.Stderr.Color("r").Print("errs").Color("w!").Print(": ", err).Reset().Nl()
-	}
-}
-
-func HandleInfo(str string) {
-	terminal.Stderr.Color("g").Print("info").Color("w!").Print(": ", str).Reset().Nl()
-}
-
-func HandleDebug(str string) {
-	if Options.Verbose {
-		terminal.Stderr.Color("y").Print("logs").Color("w!").Print(": ", str).Reset().Nl()
-	}
-}
-
-func Git(args ...string) error {
-	CheckGit()
-
-	cmd := exec.Command("git", args...)
-
-	cmd.Stdin = os.Stdin
-
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-
-	HandleDebug("git " + strings.Join(args, " "))
-
-	return cmd.Run()
 }

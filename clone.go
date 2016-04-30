@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/pksunkara/hub/utils"
 	"strings"
 )
 
@@ -10,11 +11,11 @@ type CloneCommand struct {
 
 func (c *CloneCommand) Execute(args []string) error {
 	if len(args) == 0 {
-		return &ErrArgument{}
+		return &utils.ErrArgument{}
 	}
 
 	if strings.Index(args[0], ":") != -1 {
-		return &ErrProxy{}
+		return &utils.ErrProxy{}
 	}
 
 	var repo string
@@ -29,7 +30,7 @@ func (c *CloneCommand) Execute(args []string) error {
 
 	if len(path) == 1 {
 		if Config("user") == "" {
-			return &ErrUserMode{}
+			return &utils.ErrUserMode{}
 		}
 
 		if Config("token") != "" {
@@ -43,7 +44,7 @@ func (c *CloneCommand) Execute(args []string) error {
 		return &ErrProxy{}
 	}
 
-	return Git([]string{"clone", "--progress", repo}...)
+	return utils.Git([]string{"clone", "--progress", repo}...)
 }
 
 func (c *CloneCommand) Usage() string {

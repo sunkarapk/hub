@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"errors"
@@ -45,4 +45,19 @@ func Remotes() (remotes map[string]string, err error) {
 	}
 
 	return
+}
+
+func Git(args ...string) error {
+	CheckGit()
+
+	cmd := exec.Command("git", args...)
+
+	cmd.Stdin = os.Stdin
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	HandleDebug("git " + strings.Join(args, " "))
+
+	return cmd.Run()
 }
