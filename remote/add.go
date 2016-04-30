@@ -19,7 +19,7 @@ func (a *AddCommand) Execute(args []string) error {
 
 	var user, repo string
 
-	if r.Private || args[0] == "origin" {
+	if a.Private || args[0] == "origin" {
 		repo = "git@" + config.Get("site") + ":"
 	} else {
 		repo = "git://" + config.Get("site") + "/"
@@ -38,7 +38,13 @@ func (a *AddCommand) Execute(args []string) error {
 	path := strings.Split(args[0], "/")
 
 	if len(path) == 1 {
-		repo = repo + user + "/" + utils.Repo()
+		name, err := utils.RepoName()
+
+		if err != nil {
+			return err
+		}
+
+		repo = repo + user + "/" + name
 	} else {
 		return &utils.ErrProxy{}
 	}

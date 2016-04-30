@@ -22,11 +22,11 @@ func (f *FetchCommand) Execute(args []string) error {
 	users := strings.Split(args[0], ",")
 	remotes, err := utils.Remotes()
 
-	remoteAdd := &remote.AddCommand{}
-
 	if err != nil {
 		return err
 	}
+
+	remoteAdd := &remote.AddCommand{}
 
 	for _, user := range users {
 		if _, ok := remotes[user]; !ok {

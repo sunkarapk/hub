@@ -34,8 +34,6 @@ var Options struct {
 }
 
 func main() {
-	var err error
-
 	// Initiate parser
 	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash)
 

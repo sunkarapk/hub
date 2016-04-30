@@ -15,10 +15,22 @@ func CheckGit() {
 	}
 }
 
-func Repo() string {
-	path, _ := os.Getwd()
+func RepoName() (path string, err error) {
+	path, err = RepoRoot()
+	path = filepath.Base(path)
 
-	return filepath.Base(path)
+	return
+}
+
+func RepoRoot() (path string, err error) {
+	CheckGit()
+
+	var out []byte
+
+	out, err = exec.Command("git", "rev-parse", "--show-toplevel").Output()
+	path = strings.Trim(string(out[:]), "\n")
+
+	return
 }
 
 func Remotes() (remotes map[string]string, err error) {
@@ -60,4 +72,16 @@ func Git(args ...string) error {
 	HandleDebug("git " + strings.Join(args, " "))
 
 	return cmd.Run()
+}
+
+func GitBatch(args ...[]string) error {
+	for _, command := range args {
+		err := Git(command...)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
