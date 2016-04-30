@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/pksunkara/hub/config"
 	"github.com/pksunkara/hub/utils"
 	"strings"
 )
@@ -21,27 +22,27 @@ func (c *CloneCommand) Execute(args []string) error {
 	var repo string
 
 	if c.Private {
-		repo = "git@" + Config("site") + ":"
+		repo = "git@" + config.Get("site") + ":"
 	} else {
-		repo = "git://" + Config("site") + "/"
+		repo = "git://" + config.Get("site") + "/"
 	}
 
 	path := strings.Split(args[0], "/")
 
 	if len(path) == 1 {
-		if Config("user") == "" {
+		if config.Get("user") == "" {
 			return &utils.ErrUserMode{}
 		}
 
-		if Config("token") != "" {
-			repo = "git@" + Config("site") + ":"
+		if config.Get("token") != "" {
+			repo = "git@" + config.Get("site") + ":"
 		}
 
-		repo = repo + Config("user") + "/" + path[0]
+		repo = repo + config.Get("user") + "/" + path[0]
 	} else if len(path) == 2 {
 		repo = repo + args[0]
 	} else {
-		return &ErrProxy{}
+		return &utils.ErrProxy{}
 	}
 
 	return utils.Git([]string{"clone", "--progress", repo}...)

@@ -1,15 +1,16 @@
-package main
+package remote
 
 import (
+	"github.com/pksunkara/hub/config"
 	"github.com/pksunkara/hub/utils"
 	"strings"
 )
 
-type RemoteAddCommand struct {
+type AddCommand struct {
 	Private bool `short:"p" long:"private" description:"Use private url for the repository"`
 }
 
-func (r *RemoteAddCommand) Execute(args []string) error {
+func (a *AddCommand) Execute(args []string) error {
 	if len(args) == 0 {
 		return &utils.ErrArgument{}
 	} else if len(args) > 1 {
@@ -19,17 +20,17 @@ func (r *RemoteAddCommand) Execute(args []string) error {
 	var user, repo string
 
 	if r.Private || args[0] == "origin" {
-		repo = "git@" + Config("site") + ":"
+		repo = "git@" + config.Get("site") + ":"
 	} else {
-		repo = "git://" + Config("site") + "/"
+		repo = "git://" + config.Get("site") + "/"
 	}
 
 	if args[0] == "origin" {
-		if Config("user") == "" {
+		if config.Get("user") == "" {
 			return &utils.ErrUserMode{}
 		}
 
-		user = Config("user")
+		user = config.Get("user")
 	} else {
 		user = args[0]
 	}
@@ -37,7 +38,7 @@ func (r *RemoteAddCommand) Execute(args []string) error {
 	path := strings.Split(args[0], "/")
 
 	if len(path) == 1 {
-		repo = repo + user + "/" + Repo()
+		repo = repo + user + "/" + utils.Repo()
 	} else {
 		return &utils.ErrProxy{}
 	}
@@ -48,11 +49,11 @@ func (r *RemoteAddCommand) Execute(args []string) error {
 		return err
 	}
 
-	HandleInfo("Added remote named `" + args[0] + "`")
+	utils.HandleInfo("Added remote named `" + args[0] + "`")
 
 	return nil
 }
 
-func (r *RemoteAddCommand) Usage() string {
+func (a *AddCommand) Usage() string {
 	return "[-p] <user | origin>"
 }

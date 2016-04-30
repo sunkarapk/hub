@@ -1,18 +1,19 @@
 package auth
 
 import (
+	"github.com/pksunkara/hub/config"
 	"github.com/pksunkara/hub/utils"
 )
 
 type UserCommand struct{}
 
-func (a *UserCommand) Execute(args []string) error {
-	if Config("token") != "" {
+func (u *UserCommand) Execute(args []string) error {
+	if config.Get("token") != "" {
 		return &utils.ErrModes{}
 	}
 
 	if len(args) == 1 {
-		Config("user", args[0])
+		config.Set("user", args[0])
 		utils.HandleInfo("You are now in `user` mode")
 	} else {
 		return &utils.ErrArgument{}
@@ -21,6 +22,6 @@ func (a *UserCommand) Execute(args []string) error {
 	return nil
 }
 
-func (a *UserCommand) Usage() string {
+func (u *UserCommand) Usage() string {
 	return "<user>"
 }

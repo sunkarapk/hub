@@ -7,10 +7,10 @@ package auth
 
 type PrivateCommand struct{}
 
-func (a *PrivateCommand) Execute(args []string) error {
+func (p *PrivateCommand) Execute(args []string) error {
 	return nil
 }
 
-func (a *PrivateCommand) Usage() string {
+func (p *PrivateCommand) Usage() string {
 	return "<user>"
 }

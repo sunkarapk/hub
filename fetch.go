@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/pksunkara/hub/remote"
 	"github.com/pksunkara/hub/utils"
 	"strings"
 )
@@ -21,7 +22,7 @@ func (f *FetchCommand) Execute(args []string) error {
 	users := strings.Split(args[0], ",")
 	remotes, err := utils.Remotes()
 
-	remoteAdd := &RemoteAddCommand{}
+	remoteAdd := &remote.AddCommand{}
 
 	if err != nil {
 		return err
