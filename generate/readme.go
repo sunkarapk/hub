@@ -58,10 +58,7 @@ func (r *ReadmeCommand) Execute(args []string) error {
 		return err
 	}
 
-	err = utils.GitBatch([][]string{
-		[]string{"commit", "-am", "'Updated readme'"},
-		[]string{"push", "origin", "master"},
-	}...)
+	err = utils.Git([]string{"commit", "-am", "Updated readme"}...)
 
 	if err != nil {
 		return err

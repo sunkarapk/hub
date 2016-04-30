@@ -2,8 +2,9 @@ package utils
 
 import (
 	"github.com/wsxiaoys/terminal"
-	"os"
 )
+
+var Verbose *bool
 
 func HandleError(err error) {
 	if err != nil {
@@ -16,7 +17,7 @@ func HandleInfo(str string) {
 }
 
 func HandleDebug(str string) {
-	if os.Getenv("HUB_VERBOSE") == "true" {
+	if *Verbose {
 		terminal.Stderr.Color("y").Print("logs").Color("w!").Print(": ", str).Reset().Nl()
 	}
 }

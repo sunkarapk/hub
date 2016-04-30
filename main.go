@@ -11,7 +11,6 @@ import (
 	"github.com/wsxiaoys/terminal"
 	"os"
 	"os/exec"
-	"strconv"
 )
 
 const (
@@ -43,11 +42,11 @@ func main() {
 	// Load config for application
 	config.ItExists()
 
+	// Check for verbose mode
+	utils.Verbose = &Options.Verbose
+
 	// Parse the arguments
 	args, err := parser.Parse()
-
-	// Check for verbose mode
-	os.Setenv("HUB_VERBOSE", strconv.FormatBool(Options.Verbose))
 
 	if err != nil {
 		if config.Get("combine") == "1" {
