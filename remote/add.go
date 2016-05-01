@@ -49,9 +49,7 @@ func (a *AddCommand) Execute(args []string) error {
 		return &utils.ErrProxy{}
 	}
 
-	err := utils.Git([]string{"remote", "add", args[0], repo}...)
-
-	if err != nil {
+	if err := utils.Git([]string{"remote", "add", args[0], repo}...); err != nil {
 		return err
 	}
 

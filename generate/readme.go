@@ -52,15 +52,11 @@ func (r *ReadmeCommand) Execute(args []string) error {
 	data = data + "## Contact\n" + config.Get("name") + " (" + config.Get("email") + ")\n\n"
 	data = data + "Follow me on [github](https://github.com/users/follow?target=" + config.Get("user") + "), [twitter](http://twitter.com/" + config.Get("twitter") + ")\n"
 
-	err = ioutil.WriteFile(readme, []byte(data), 0644)
-
-	if err != nil {
+	if err := ioutil.WriteFile(readme, []byte(data), 0644); err != nil {
 		return err
 	}
 
-	err = utils.Git([]string{"commit", "-am", "Updated readme"}...)
-
-	if err != nil {
+	if err := utils.Git([]string{"commit", "-am", "Updated readme"}...); err != nil {
 		return err
 	}
 

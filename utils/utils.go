@@ -16,7 +16,10 @@ func CheckGit() {
 }
 
 func RepoName() (path string, err error) {
-	path, err = RepoRoot()
+	if path, err = RepoRoot(); err != nil {
+		return
+	}
+
 	path = filepath.Base(path)
 
 	return
@@ -51,7 +54,6 @@ func Remotes() (remotes map[string]string, err error) {
 	for _, line := range lines {
 		if len(line) > 1 {
 			remote := strings.Split(line, "\t")
-
 			remotes[remote[0]] = strings.Split(remote[1], " ")[0]
 		}
 	}
@@ -76,9 +78,7 @@ func Git(args ...string) error {
 
 func GitBatch(args ...[]string) error {
 	for _, command := range args {
-		err := Git(command...)
-
-		if err != nil {
+		if err := Git(command...); err != nil {
 			return err
 		}
 	}

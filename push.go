@@ -19,9 +19,7 @@ func (p *PushCommand) Execute(args []string) error {
 	}
 
 	for _, remote := range remotes {
-		err := utils.Git(append([]string{"push", remote}, args[1:]...)...)
-
-		if err != nil {
+		if err := utils.Git(append([]string{"push", remote}, args[1:]...)...); err != nil {
 			return err
 		}
 

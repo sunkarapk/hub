@@ -34,9 +34,7 @@ func (f *FetchCommand) Execute(args []string) error {
 		}
 	}
 
-	err = utils.Git(append([]string{"fetch", "--multiple"}, users...)...)
-
-	if err != nil {
+	if err := utils.Git(append([]string{"fetch", "--multiple"}, users...)...); err != nil {
 		return err
 	}
 
