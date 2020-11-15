@@ -1,0 +1,25 @@
+[package]
+name = "hub"
+version = "0.1.0"
+authors = ["Pavan Kumar Sunkara <pavan.sss1991@gmail.com>"]
+edition = "2018"
+description = "Make working with github easier"
+repository = "https://github.com/pksunkara/hub"
+license = "MIT"
+readme = "README.md"
+
+[[bin]]
+name = "hub"
+path = "src/main.rs"
+
+[profile.release]
+lto = "thin"
+
+[dependencies]
+clap = { version = "=3.0.0-beta.2", features = ["wrap_help"] }
+console = "0.13.0"
+lazy_static = "1.4.0"
+thiserror = "1.0.22"
+dialoguer = "0.7.1"
+serde = { version = "1.0.117", features = ["derive"] }
+serde_json = "1.0.59"
